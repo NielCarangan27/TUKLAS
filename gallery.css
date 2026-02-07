@@ -1,0 +1,22 @@
+body {
+    background: linear-gradient(135deg, #931d1d, #861661, #e1dc42);
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.gallery-title {
+    text-align: center;
+    margin: 40px 0 25px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.card img {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.navbar {
+    background: transparent !important;
+}
