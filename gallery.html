@@ -2,86 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tuklas Gallery</title>
+    <title>TUKLAS | BULSU LOST & FOUND</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            background: linear-gradient(135deg, #931d1d, #861661, #e1dc42);
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-        }
-
-        /* TITLES */
-        .gallery-title {
-            text-align: center;
-            margin: 40px 0 25px;
-            color: #ffffff;
-            font-weight: bold;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-        }
-
-        /* IMAGE ONLY BOX */
-        .image-only-card img {
-            height: 220px;
-            object-fit: cover;
-            border-radius: 15px;
-        }
-
-        /* NORMAL CARDS */
-        .card img {
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .navbar {
-            background: transparent !important;
-        }
-    </style>
+    
+    <link rel="stylesheet" href="gallery.css">
 </head>
-
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="index.html">TUKLAS</a>
+        <a class="navbar-brand" href="#">TUKLAS</a>
 
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+        >
             <span class="navbar-toggler-icon"></span>
         </button>
-
-        <div class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
-                <li class="nav-item"><a class="nav-link active" href="gallery.html">Gallery</a></li>
-                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-            </ul>
-        </div>
+<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="dashboard.html">Services</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="gallery.html">Gallery</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+        </li>
+    </ul>
+</div>
     </div>
 </nav>
 
-<!-- CONTENT -->
 <div class="container">
-
-    <h2 class="gallery-title">Recently Found Items</h2>
+    <h2 class="section-title">Recently Found Items</h2>
 
     <div class="row g-4">
 
         <div class="col-md-4">
-            <div class="card shadow border-0">
-                <img src="https://via.placeholder.com/300x200" class="card-img-top">
+            <div class="card shadow">
+               <img src="images/wallet.jpg" class="card-img-top" alt="Wallet">
                 <div class="card-body">
-                    <h5>Wallet</h5>
-                    <p>
-                        Status: Found <br>
-                        Location: Bulacan State University <br>
+                    <h5 class="card-title">Wallet</h5>
+                    <p class="card-text">
+                        Status: Found<br>
+                        Location: Bulacan State University<br>
                         Date: Feb 6, 2026
                     </p>
                 </div>
@@ -89,13 +67,13 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card shadow border-0">
-                <img src="https://via.placeholder.com/300x200" class="card-img-top">
+            <div class="card shadow">
+                <img src="images/bag.jpg" class="card-img-top" alt="Bag">
                 <div class="card-body">
-                    <h5>Bag</h5>
-                    <p>
-                        Status: Found <br>
-                        Location: Bulacan State University <br>
+                    <h5 class="card-title">Bag</h5>
+                    <p class="card-text">
+                        Status: Found<br>
+                        Location: Bulacan State University<br>
                         Date: Feb 6, 2026
                     </p>
                 </div>
@@ -103,13 +81,13 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card shadow border-0">
-                <img src="https://via.placeholder.com/300x200" class="card-img-top">
+            <div class="card shadow">
+               <img src="images/watch.jpg" class="card-img-top" alt="Watch">
                 <div class="card-body">
-                    <h5>Student ID</h5>
-                    <p>
-                        Status: Found <br>
-                        Location: Bulacan State University <br>
+                    <h5 class="card-title">Watch</h5>
+                    <p class="card-text">
+                        Status: Found<br>
+                        Location: Bulacan State University<br>
                         Date: Feb 6, 2026
                     </p>
                 </div>
@@ -120,5 +98,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
+
