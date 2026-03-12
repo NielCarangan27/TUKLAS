@@ -40,6 +40,7 @@
         <p class="bodytext2">
             A website dedicated to reuniting students with their missing items.
         </p>
+
         <section class="formbuttonspacing">
             <button class="openformbutton" id="openBtn">Report Lost Item</button>
 
@@ -49,7 +50,11 @@
     What is the item lost?<br>
     <input type="text" placeholder="Name of Item" required><br><br>
     Describe what the item looks<br>
-    <input type="text" placeholder="Item description" required><br><br>
+    <textarea class="desctext" type="text" placeholder="Item description" required></textarea><br><br>
+    (Optional but recommended) Provide a link of the lost item image<br>
+    <input type="text" class="longbar" placeholder="example: imgur.com or google drive link"></input><br><br>
+    Where was it lost?<br> 
+    <input type="text" class="longbar" placeholder="Location of where the item was lost" required><br><br>
     When was it lost?<br>
     <input type="date" required><br><br>
     <button type="submit">Submit</button>
@@ -74,11 +79,63 @@
         </section>
     </div>
     </section>
+</section>   
 </section>
 
+<section class="how-it-works">
+    <h2>How It Works</h2>
+    <p class="section-description">
+        Our Lost and Found website helps people report lost items and return found belongings quickly and safely.
+        Please refer to the instructions given below.
+    </p>
 
-    
+    <div class="steps-container">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Report an Item</h3>
+            <p>
+                Submit a report for a lost or found item by filling out the form. 
+                Provide details like item name, description, location, date, and an optional photo of the lost item.
+            </p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>Connect and Recover</h3>
+            <p>
+                If you find a match, contact us and we will arrange connections to a available lost and found staff.
+            </p>
+        </div>
+    </div>
 </section>
+
+<section class="safety-guidelines">
+    <h2>Safety & Guidelines</h2>
+    <p>Here are the safety & guidelines of TUKLAS, please follow these guidelines when posting or claiming items.</p>
+
+    <div class="guidelines-container">
+        <div class="guideline">
+            <h3>1. Provide Honest Information</h3>
+            <p>When posting a lost or found item, provide accurate details such as the item's color, brand, or unique features to help identify it.</p>
+        </div>
+
+        <div class="guideline">
+            <h3>2. Verify Ownership</h3>
+            <p>If you are claiming an item, be ready to describe specific details about the item to prove it belongs to you. Additionally, if you are claiming an item, please contact us, our contact information will be provided in the Contact page</p>
+        </div>
+
+        <div class="guideline">
+            <h3>3. Meet in a Safe Place</h3>
+            <p>Arrange to meet within campus grounds, your safety is not guaranteed outside of the Campus</p>
+        </div>
+
+        <div class="guideline">
+            <h3>4. Update Item Status</h3>
+            <p>If your item has been found or returned, please update the listing so others know it has been resolved.</p>
+        </div>
+    </div>
+</section>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
