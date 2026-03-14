@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    
+    <style>
+      body {
+        background-color:rgb(175, 149, 115);
+        font-family: sans-serif;
+      }
+
+      .Mydiary {
+        background-color:rgb(74, 52, 75);
+        color: white;
+        width: auto;
+        height: auto;
+        margin: 100px auto;
+        padding: 20px;
+        border-radius: 10px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-bottom: 10px;
+      }
+      input[type="text"],
+      input[type="date"] {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 5px;
+      }
+ 
+
+    </style>
+  </head>
+<body>
+  <div class="Mydiary">
+    <h1>My diary</h1>
+    <form>
+      <label for="Diary">what happened today</label>
+      <input type="text" id="name" name="name" placeholder=".....">
+
+      
+      <label for="date">Current Date</label>
+      <input type="date" id="date" name="date">
+
+      <input type="submit" value="Submit">
+      
+    </form>
+  </div>
+</body>
+
+</html>
