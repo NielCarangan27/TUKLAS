@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TUKLAS | BULSU LOST & FOUND</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+   
+    <link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#">TUKLAS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="filter-bar">
+    <input type="text" placeholder="Search items...">
+    <select>
+        <option>All Categories</option>
+        <option>Personal Items</option>
+        <option>Accessories</option>
+        <option>Electronics</option>
+        <option>Documents</option>
+    </select>
+    <select>
+        <option>All Locations</option>
+        <option>Activity Center</option>
+        <option>Library</option>
+        <option>Computer Lab</option>
+        <option>Canteen</option>
+    </select>
+    <input type="date">
+</div>
+
+
+<div class="gallery-grid">
+    <p class="empty-text">No lost items reported yet.</p>
+</div>
+
+
+<div class="claim-section">
+    <h4>Claim Lost Item</h4>
+    <button class="btn btn-maroon" id="openClaimBtn">Claim Item</button>
+</div>
+
+
+<div class="modal fade" id="claimModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="claimForm" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title">Claim Lost Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Your Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Contact Info</label>
+                        <input type="text" class="form-control" name="contact" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Item Description</label>
+                        <input type="text" class="form-control" name="description" required>
+                    <div class="mb-3">
+    <label>Proof of Ownership</label>
+    <input type="file" class="form-control" name="proof" disabled>
+    
+</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-maroon">Submit Claim</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="gallery.js"></script>
+
+</body>
+</html>

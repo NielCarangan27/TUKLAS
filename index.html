@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TUKLAS | BULSU LOST & FOUND</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#">TUKLAS</a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<section class="hero">
+    <section class="bgimg">
+    <div class="container">
+        <h1 class="bodytext">Reconnecting students<br>with what they’ve lost</h1>
+        <p class="bodytext2">
+            A website dedicated to reuniting students with their missing items.
+        </p>
+
+        <section class="formbuttonspacing">
+            <button class="openformbutton" id="openBtn">Report Lost Item</button>
+
+<div id="popupForm" class="formlayoutdes">
+  <h2>Lost Item Report</h2>
+  <form>
+    What is the item lost?<br>
+    <input type="text" placeholder="Name of Item" required><br><br>
+    Describe what the item looks<br>
+    <textarea class="desctext" type="text" placeholder="Item description" required></textarea><br><br>
+    (Optional but recommended) Provide a link of the lost item image<br>
+    <input type="text" class="longbar" placeholder="example: imgur.com or google drive link"></input><br><br>
+    Where was it lost?<br> 
+    <input type="text" class="longbar" placeholder="Location of where the item was lost" required><br><br>
+    When was it lost?<br>
+    <input type="date" required><br><br>
+    <button type="submit">Submit</button>
+    <button type="button" id="closeBtn">Close</button>
+  </form>
+</div>
+
+<script>
+  const openBtn = document.getElementById('openBtn');
+  const popupForm = document.getElementById('popupForm');
+  const closeBtn = document.getElementById('closeBtn');
+
+  openBtn.addEventListener('click', () => {
+    popupForm.style.display = 'block';
+  });
+
+  closeBtn.addEventListener('click', () => {
+    popupForm.style.display = 'none';
+  });
+</script>
+
+        </section>
+    </div>
+    </section>
+</section>   
+</section>
+
+<section class="how-it-works">
+    <h2>How It Works</h2>
+    <p class="section-description">
+        Our Lost and Found website helps people report lost items and return found belongings quickly and safely.
+        Please refer to the instructions given below.
+    </p>
+
+    <div class="steps-container">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Report an Item</h3>
+            <p>
+                Submit a report for a lost or found item by filling out the form. 
+                Provide details like item name, description, location, date, and an optional photo of the lost item.
+            </p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>Connect and Recover</h3>
+            <p>
+                If you find a match, contact us and we will arrange connections to a available lost and found staff.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="safety-guidelines">
+    <h2>Safety & Guidelines</h2>
+    <p>Here are the safety & guidelines of TUKLAS, please follow these guidelines when posting or claiming items.</p>
+
+    <div class="guidelines-container">
+        <div class="guideline">
+            <h3>1. Provide Honest Information</h3>
+            <p>When posting a lost or found item, provide accurate details such as the item's color, brand, or unique features to help identify it.</p>
+        </div>
+
+        <div class="guideline">
+            <h3>2. Verify Ownership</h3>
+            <p>If you are claiming an item, be ready to describe specific details about the item to prove it belongs to you. Additionally, if you are claiming an item, please contact us, our contact information will be provided in the Contact page</p>
+        </div>
+
+        <div class="guideline">
+            <h3>3. Meet in a Safe Place</h3>
+            <p>Arrange to meet within campus grounds, your safety is not guaranteed outside of the Campus</p>
+        </div>
+
+        <div class="guideline">
+            <h3>4. Update Item Status</h3>
+            <p>If your item has been found or returned, please update the listing so others know it has been resolved.</p>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

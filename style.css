@@ -1,0 +1,90 @@
+:root {
+    --bulsu-maroon: #800000;
+    --bulsu-gold: #FFD700;
+    --glass: rgba(255, 255, 255, 0.9);
+    --dark-accent: #1a1a1a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body {
+    background: radial-gradient(circle at top right, #800000, #4a0000);
+    min-height: 100vh;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Main Dashboard Wrapper */
+.dashboard {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+}
+
+/* Glassmorphism sidebar */
+.glass-panel {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.nav-link {
+    padding: 12px 15px;
+    border-radius: 12px;
+    color: var(--dark-accent);
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.nav-link.active {
+    background: var(--bulsu-maroon);
+    color: white;
+}
+
+/* Hero Section inside Main Content */
+.hero-banner {
+    background: url('https://images.unsplash.com/photo-1523050335392-9bef56f386d1?auto=format&fit=crop&w=800&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    border-radius: 24px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 40px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.hero-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.😎, transparent);
+}
+
+.hero-text {
+    position: relative;
+    z-index: 1;
+    color: white;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 18px 25px;
+    border-radius: 50px;
+    border: none;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    font-size: 1rem;
+    outline: none;
+}
