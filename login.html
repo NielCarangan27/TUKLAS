@@ -4,47 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TUKLAS | Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
 
-    <div class="login-card shadow-lg">
-        <h2>TUKLAS</h2>
-        <p class="text-muted small mb-4">BulSU Lost & Found</p>
+<div class="login-card">
+    <h2 style="color: var(--bulsu-maroon); font-weight: 800;">TUKLAS</h2>
+    <p style="font-size: 0.85rem; color: #888; margin-bottom: 30px;">Sign in to your account</p>
 
-        <form id="loginForm">
-            <div class="mb-3 text-start">
-                <label class="form-label">BulSU ID Number</label>
-                <input type="text" id="studentID" class="form-control" placeholder="" required>
+    <form id="loginForm">
+        <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <div class="input-container">
+                <input type="email" class="form-control" id="email" placeholder="Enter email" required>
             </div>
+        </div>
 
-            <div class="mb-3 text-start">
-                <label class="form-label">Password</label>
+        <div class="form-group">
+            <label class="form-label" for="passwordInput">Password</label>
+            <div class="input-container">
                 <div class="input-group">
-                    <input type="password" id="passwordInput" class="form-control" required>
+                    <input type="password" class="form-control" id="passwordInput" placeholder="Enter password" required>
                     <span class="input-group-text" id="togglePasswordBtn">
-                       
+                        <i class="fas fa-eye" id="eyeIcon"></i>
                     </span>
                 </div>
             </div>
+        </div>
 
-            <div class="mb-4 text-start">
-                <label class="form-label">Login As</label>
-                <select id="roleInput" class="form-select">
-                    <option value="user">Student / User</option>
-                    <option value="admin">Administrator</option>
+        <div class="form-group">
+            <label class="form-label" for="roleInput">Login as</label>
+            <div class="input-container">
+                <select class="form-select" id="roleInput">
+                    <option value="student">Student</option>
+                    <option value="admin">Admin</option>
                 </select>
             </div>
+        </div>
 
-            <button type="submit" class="btn-signin shadow">Sign In</button>
-            <div class="mt-4 small">
-                <p class="text-muted">Don't have an account? <a href="#" class="reg-link">Register</a></p>
-            </div>
-        </form>
-    </div>
+        <button type="submit" class="btn-signin">Login</button>
+    </form>
 
-    <script src="login.js"></script>
+    <p id="loginError" style="display:none; color:red; margin-top:10px; font-size:0.85rem;">Invalid email or password. Please try again.</p>
+
+    <p style="margin-top: 20px; font-size: 0.85rem; color: #666;">
+        Don't have an account? <a href="register.html" class="reg-link" style="color: var(--bulsu-maroon); font-weight: 600; text-decoration: none;">Register here</a>
+    </p>
+</div>
+     
+
+<script>
+    // Toggle password visibility
+    document.getElementById('togglePasswordBtn').addEventListener('click', function () {
+        const input   = document.getElementById('passwordInput');
+        const icon    = document.getElementById('eyeIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+
+    // Login form submission
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const email    = document.getElementById('email').value.trim();
+        const password = document.getElementById('passwordInput').value;
+        const role     = document.getElementById('roleInput').value;
+        const errEl    = document.getElementById('loginError');
+
+        // Admin shortcut (no registration required)
+        if (role === 'admin' && email === 'admin@tuklas.edu.ph' && password === 'admin123') {
+            window.location.href = 'admin.html';
+            return;
+        }
+
+        // Check registered user in localStorage
+        const stored = localStorage.getItem(email);
+        if (stored) {
+            const user = JSON.parse(stored);
+            if (user.password === password) {
+                errEl.style.display = 'none';
+                alert('Welcome back, ' + user.name + '!');
+                window.location.href = 'index.html';
+                return;
+            }
+        }
+
+        // Invalid
+        errEl.style.display = 'block';
+    });
+</script>
+
 </body>
 </html>

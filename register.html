@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUKLAS | Register</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+
+<div class="register-card">
+    <div class="brand">TUKLAS</div>
+    <h2>Create your account</h2>
+    <p class="subtitle">BulSU Lost &amp; Found — Register to get started</p>
+    <div class="divider"></div>
+
+    <div class="alert-success" id="successAlert">
+        ✅ Registration successful! Redirecting to login...
+    </div>
+
+    <form id="registerForm" novalidate>
+
+        <!-- Full Name -->
+        <div class="form-group">
+            <label class="form-label" for="fullName">Full Name</label>
+            <input
+                type="text"
+                class="form-control"
+                id="fullName"
+                placeholder="e.g. Juan Dela Cruz"
+                required
+                minlength="3"
+            >
+            <p class="error-msg" id="nameErr">Please enter your full name (at least 3 characters).</p>
+        </div>
+
+        <!-- ID Number -->
+        <div class="form-group">
+            <label class="form-label" for="idNumber">ID Number</label>
+            <input
+                type="text"
+                class="form-control"
+                id="idNumber"
+                placeholder="e.g. 2021-00001"
+                required
+            >
+            <p class="error-msg" id="idErr">Please enter a valid ID number.</p>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label class="form-label" for="regEmail">Email Address</label>
+            <input
+                type="email"
+                class="form-control"
+                id="regEmail"
+                placeholder="e.g. juan@bulsu.edu.ph"
+                required
+            >
+            <p class="error-msg" id="emailErr">Please enter a valid email address.</p>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label class="form-label" for="regPassword">Password</label>
+            <div class="input-wrapper">
+                <input
+                    type="password"
+                    class="form-control"
+                    id="regPassword"
+                    placeholder="Create a password"
+                    required
+                    minlength="6"
+                >
+                <button type="button" class="toggle-pw" id="togglePw1" aria-label="Toggle password">
+                    👁
+                </button>
+            </div>
+            <div class="pw-strength">
+                <div class="pw-bar" id="bar1"></div>
+                <div class="pw-bar" id="bar2"></div>
+                <div class="pw-bar" id="bar3"></div>
+                <div class="pw-bar" id="bar4"></div>
+            </div>
+            <p class="pw-label" id="pwLabel">Enter a password</p>
+            <p class="error-msg" id="pwErr">Password must be at least 6 characters.</p>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+            <label class="form-label" for="confirmPassword">Confirm Password</label>
+            <div class="input-wrapper">
+                <input
+                    type="password"
+                    class="form-control"
+                    id="confirmPassword"
+                    placeholder="Re-enter your password"
+                    required
+                >
+                <button type="button" class="toggle-pw" id="togglePw2" aria-label="Toggle confirm password">
+                    👁
+                </button>
+            </div>
+            <p class="error-msg" id="confirmErr">Passwords do not match.</p>
+        </div>
+
+        <button type="submit" class="btn-register">Register</button>
+    </form>
+
+    <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
+</div>
+
+<script>
+    // --- Toggle password visibility ---
+    function setupToggle(btnId, inputId) {
+        document.getElementById(btnId).addEventListener('click', function () {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                this.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                this.textContent = '👁';
+            }
+        });
+    }
+    setupToggle('togglePw1', 'regPassword');
+    setupToggle('togglePw2', 'confirmPassword');
+
+    // --- Password strength indicator ---
+    document.getElementById('regPassword').addEventListener('input', function () {
+        const val = this.value;
+        const bars = [
+            document.getElementById('bar1'),
+            document.getElementById('bar2'),
+            document.getElementById('bar3'),
+            document.getElementById('bar4')
+        ];
+        const label = document.getElementById('pwLabel');
+
+        bars.forEach(b => b.className = 'pw-bar');
+
+        let strength = 0;
+        if (val.length >= 6) strength++;
+        if (val.length >= 10) strength++;
+        if (/[A-Z]/.test(val) && /[0-9]/.test(val)) strength++;
+        if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+        const levels = ['', 'weak', 'fair', 'good', 'strong'];
+        const labels = ['Enter a password', 'Weak', 'Fair', 'Good', 'Strong'];
+
+        for (let i = 0; i < strength; i++) {
+            bars[i].classList.add(levels[strength]);
+        }
+        label.textContent = val.length === 0 ? 'Enter a password' : labels[strength];
+    });
+
+    // --- Form validation & submission ---
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const name        = document.getElementById('fullName').value.trim();
+        const idNum       = document.getElementById('idNumber').value.trim();
+        const email       = document.getElementById('regEmail').value.trim();
+        const password    = document.getElementById('regPassword').value;
+        const confirmPw   = document.getElementById('confirmPassword').value;
+
+        let valid = true;
+
+        // Helper: show/hide errors
+        function setError(fieldId, errId, condition) {
+            const field = document.getElementById(fieldId);
+            const err   = document.getElementById(errId);
+            if (condition) {
+                field.classList.add('error');
+                err.style.display = 'block';
+                valid = false;
+            } else {
+                field.classList.remove('error');
+                err.style.display = 'none';
+            }
+        }
+
+        setError('fullName',        'nameErr',    name.length < 3);
+        setError('idNumber',        'idErr',       idNum.length < 4);
+        setError('regEmail',        'emailErr',    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+        setError('regPassword',     'pwErr',       password.length < 6);
+        setError('confirmPassword', 'confirmErr',  password !== confirmPw);
+
+        if (!valid) return;
+
+        // Check if email already registered
+        if (localStorage.getItem(email)) {
+            document.getElementById('regEmail').classList.add('error');
+            const err = document.getElementById('emailErr');
+            err.textContent = 'This email is already registered. Try logging in.';
+            err.style.display = 'block';
+            return;
+        }
+
+        // Save user to localStorage (keyed by email, matches login.html logic)
+        const user = { name, idNumber: idNum, email, password };
+        localStorage.setItem(email, JSON.stringify(user));
+
+        // Show success, redirect after 2 seconds
+        document.getElementById('successAlert').style.display = 'block';
+        document.getElementById('registerForm').style.display = 'none';
+
+        setTimeout(function () {
+            window.location.href = 'login.html';
+        }, 2000);
+    });
+</script>
+
+</body>
+</html>
