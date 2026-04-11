@@ -110,69 +110,61 @@
     <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
 </div>
 
+<!-- 
+  ============================================================
+  REPLACEMENT <script> block for register.html
+  Replace only the form submission part (the addEventListener
+  for 'registerForm') — keep the password toggle and strength
+  meter as they are.
+  ============================================================
+-->
 <script>
-    // --- Toggle password visibility ---
+    // --- Toggle password visibility (keep as-is) ---
     function setupToggle(btnId, inputId) {
         document.getElementById(btnId).addEventListener('click', function () {
             const input = document.getElementById(inputId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                this.textContent = '🙈';
-            } else {
-                input.type = 'password';
-                this.textContent = '👁';
-            }
+            if (input.type === 'password') { input.type = 'text'; this.textContent = '🙈'; }
+            else                           { input.type = 'password'; this.textContent = '👁'; }
         });
     }
     setupToggle('togglePw1', 'regPassword');
     setupToggle('togglePw2', 'confirmPassword');
 
-    // --- Password strength indicator ---
+    // --- Password strength indicator (keep as-is) ---
     document.getElementById('regPassword').addEventListener('input', function () {
-        const val = this.value;
-        const bars = [
-            document.getElementById('bar1'),
-            document.getElementById('bar2'),
-            document.getElementById('bar3'),
-            document.getElementById('bar4')
-        ];
+        const val  = this.value;
+        const bars = ['bar1','bar2','bar3','bar4'].map(id => document.getElementById(id));
         const label = document.getElementById('pwLabel');
-
         bars.forEach(b => b.className = 'pw-bar');
-
         let strength = 0;
-        if (val.length >= 6) strength++;
+        if (val.length >= 6)  strength++;
         if (val.length >= 10) strength++;
         if (/[A-Z]/.test(val) && /[0-9]/.test(val)) strength++;
         if (/[^A-Za-z0-9]/.test(val)) strength++;
-
-        const levels = ['', 'weak', 'fair', 'good', 'strong'];
-        const labels = ['Enter a password', 'Weak', 'Fair', 'Good', 'Strong'];
-
-        for (let i = 0; i < strength; i++) {
-            bars[i].classList.add(levels[strength]);
-        }
+        const levels = ['','weak','fair','good','strong'];
+        const labels = ['Enter a password','Weak','Fair','Good','Strong'];
+        for (let i = 0; i < strength; i++) bars[i].classList.add(levels[strength]);
         label.textContent = val.length === 0 ? 'Enter a password' : labels[strength];
     });
 
-    // --- Form validation & submission ---
-    document.getElementById('registerForm').addEventListener('submit', function (e) {
+    // --- Form submission → PHP API ---
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const name        = document.getElementById('fullName').value.trim();
-        const idNum       = document.getElementById('idNumber').value.trim();
-        const email       = document.getElementById('regEmail').value.trim();
-        const password    = document.getElementById('regPassword').value;
-        const confirmPw   = document.getElementById('confirmPassword').value;
+        const name      = document.getElementById('fullName').value.trim();
+        const idNumber  = document.getElementById('idNumber').value.trim();
+        const email     = document.getElementById('regEmail').value.trim();
+        const password  = document.getElementById('regPassword').value;
+        const confirmPw = document.getElementById('confirmPassword').value;
 
         let valid = true;
 
-        // Helper: show/hide errors
-        function setError(fieldId, errId, condition) {
+        function setError(fieldId, errId, condition, msg) {
             const field = document.getElementById(fieldId);
             const err   = document.getElementById(errId);
             if (condition) {
                 field.classList.add('error');
+                if (msg) err.textContent = msg;
                 err.style.display = 'block';
                 valid = false;
             } else {
@@ -182,33 +174,35 @@
         }
 
         setError('fullName',        'nameErr',    name.length < 3);
-        setError('idNumber',        'idErr',       idNum.length < 4);
+        setError('idNumber',        'idErr',       idNumber.length < 4);
         setError('regEmail',        'emailErr',    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
         setError('regPassword',     'pwErr',       password.length < 6);
         setError('confirmPassword', 'confirmErr',  password !== confirmPw);
 
         if (!valid) return;
 
-        // Check if email already registered
-        if (localStorage.getItem(email)) {
-            document.getElementById('regEmail').classList.add('error');
-            const err = document.getElementById('emailErr');
-            err.textContent = 'This email is already registered. Try logging in.';
-            err.style.display = 'block';
-            return;
+        try {
+           const res = await fetch('api/register.php', {
+                method : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body   : JSON.stringify({ name, id_number: idNumber, email, password }),
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                // Show server-side error (e.g. duplicate email)
+                setError('regEmail', 'emailErr', true, data.error || 'Registration failed.');
+                return;
+            }
+
+            // Success
+            document.getElementById('successAlert').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+
+        } catch (err) {
+            alert('Could not reach the server. Please try again.');
         }
-
-        // Save user to localStorage (keyed by email, matches login.html logic)
-        const user = { name, idNumber: idNum, email, password };
-        localStorage.setItem(email, JSON.stringify(user));
-
-        // Show success, redirect after 2 seconds
-        document.getElementById('successAlert').style.display = 'block';
-        document.getElementById('registerForm').style.display = 'none';
-
-        setTimeout(function () {
-            window.location.href = 'login.html';
-        }, 2000);
     });
 </script>
 

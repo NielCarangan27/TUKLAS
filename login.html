@@ -52,13 +52,11 @@
         Don't have an account? <a href="register.html" class="reg-link" style="color: var(--bulsu-maroon); font-weight: 600; text-decoration: none;">Register here</a>
     </p>
 </div>
-     
 
 <script>
-    // Toggle password visibility
     document.getElementById('togglePasswordBtn').addEventListener('click', function () {
-        const input   = document.getElementById('passwordInput');
-        const icon    = document.getElementById('eyeIcon');
+        const input = document.getElementById('passwordInput');
+        const icon  = document.getElementById('eyeIcon');
         if (input.type === 'password') {
             input.type = 'text';
             icon.classList.replace('fa-eye', 'fa-eye-slash');
@@ -68,37 +66,34 @@
         }
     });
 
-    // Login form submission
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
-
         const email    = document.getElementById('email').value.trim();
         const password = document.getElementById('passwordInput').value;
         const role     = document.getElementById('roleInput').value;
         const errEl    = document.getElementById('loginError');
-
-        // Admin shortcut (no registration required)
-        if (role === 'admin' && email === 'admin@tuklas.edu.ph' && password === 'admin123') {
-            window.location.href = 'admin.html';
-            return;
-        }
-
-        // Check registered user in localStorage
-        const stored = localStorage.getItem(email);
-        if (stored) {
-            const user = JSON.parse(stored);
-            if (user.password === password) {
-                errEl.style.display = 'none';
-                alert('Welcome back, ' + user.name + '!');
-                window.location.href = 'index.html';
+        errEl.style.display = 'none';
+        try {
+            const res  = await fetch('api/auth.php?action=login', {
+                method : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body   : JSON.stringify({ email, password, role }),
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                errEl.textContent   = data.error || 'Invalid credentials.';
+                errEl.style.display = 'block';
                 return;
             }
+            sessionStorage.setItem('tuklas_user', JSON.stringify(data.user));
+            window.location.href = data.user.role === 'admin' ? 'admin.html' : 'index.html';
+        } catch (err) {
+            errEl.textContent   = 'Could not reach the server. Please try again.';
+            errEl.style.display = 'block';
         }
-
-        // Invalid
-        errEl.style.display = 'block';
     });
 </script>
+
 
 </body>
 </html>

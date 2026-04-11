@@ -2,58 +2,296 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TUKLAS | Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="services.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+        }
+        .navbar { background-color: #2c2c2c; }
+        .navbar-brand { font-weight: bold; color: #ffffff !important; letter-spacing: 1px; }
+        .nav-link { color: #ffffff !important; margin-left: 10px; }
+        .nav-link:hover { text-decoration: underline; }
+        .page-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px 40px;
+        }
+        .services-card {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            overflow: hidden;
+            border-top: 8px solid #b30000;
+        }
+        .left-panel {
+            background: linear-gradient(160deg, #b30000, #4a0000);
+            color: white;
+            padding: 50px 35px;
+            width: 35%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .left-panel .icon { font-size: 3.5rem; margin-bottom: 20px; }
+        .left-panel h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 15px; }
+        .left-panel p { font-size: 0.9rem; opacity: 0.85; line-height: 1.7; }
+        .left-panel .tip {
+            margin-top: 30px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+        .left-panel .tip strong { display: block; margin-bottom: 5px; font-size: 0.88rem; }
+        .right-panel { padding: 40px; flex: 1; overflow-y: auto; }
+        .right-panel h3 { font-weight: 700; color: #b30000; margin-bottom: 20px; font-size: 1.4rem; }
+        .form-label { font-weight: 600; color: #b30000; }
+        .form-control:focus { border-color: #b30000; box-shadow: 0 0 0 0.2rem rgba(179,0,0,0.2); }
+        .section-divider {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin: 18px 0 14px;
+        }
+        .section-divider.private {
+            color: #b30000;
+            border-bottom-color: #f5c6cb;
+        }
+        .private-box {
+            background: #fff8f8;
+            border: 1px dashed #b30000;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+        .btn-submit {
+            background-color: #b30000;
+            color: white;
+            border: none;
+            font-weight: 600;
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { background-color: #8a0000; }
+        @media (max-width: 768px) {
+            .services-card { flex-direction: column; }
+            .left-panel { width: 100%; padding: 30px 25px; }
+        }
+    </style>
 </head>
-<body>
+<body style="display:none">
+<script>
+    const user = JSON.parse(sessionStorage.getItem('tuklas_user') || '{}');
+    if (!user || !user.id) {
+        window.location.href = 'login.html';
+    } else {
+        document.body.style.display = 'block';
+    }
+</script>
 
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar fixed-top navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="#">TUKLAS</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                <li class="nav-item"><a class="nav-link active" href="services.html">Report Lost Item</a></li>
+                <li class="nav-item"><a class="nav-link" href="gallery.html">Item Listing</a></li>
                 <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                <li class="nav-item" id="loginNavItem"><a class="nav-link" href="login.html">Login</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
+<div class="page-wrapper">
+    <div class="services-card">
 
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+            <div class="icon">🔍</div>
+            <h2>Report Lost Item</h2>
+            <p>Help us help you. Fill out the form with accurate details about your lost item so our team can assist you faster.</p>
+            <div class="tip">
+                <strong>💡 Tips for a better report:</strong>
+                Include color, brand, and type. The more detail you provide, the better the chance of recovery.
+            </div>
+        </div>
 
-        <main>
-            <header style="margin-bottom: 30px; color: white;">
-                <h2 style="font-weight: 800;">System Services</h2>
-                <p style="opacity: 0.8;">Manual coordination tools for BulSUans.</p>
-            </header>
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+            <h3>Report Lost Item</h3>
+            <div id="formSuccess" style="display:none; color:green; margin-bottom:12px; font-weight:bold;">
+                ✅ Report submitted successfully!
+            </div>
+            <div id="formError" style="display:none; color:red; margin-bottom:12px;"></div>
 
-            <div class="services-grid">
-                <div class="glass-panel service-card">
-                    <div class="icon">📋</div>
-                    <h3>Categorized Bulletin</h3>
-                    <p>Manual filing system sorted by category and building.</p>
-                    <span class="badge-status maroon">MANUAL FILTERING</span>
+            <form id="lostItemForm" autocomplete="off">
+
+                <!-- Basic Info -->
+                <div class="section-divider">Basic Information</div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Item Name</label>
+                        <input type="text" class="form-control" id="itemName" placeholder="e.g. Umbrella, Tumbler" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Location Lost</label>
+                        <input type="text" class="form-control" id="itemLocation" placeholder="Where was it lost?" required>
+                    </div>
                 </div>
-                <div class="glass-panel service-card">
-                    <div class="icon">🪪</div>
-                    <h3>ID Recovery Lane</h3>
-                    <p>Search Student Numbers to find surrendered IDs.</p>
-                    <span class="badge-status gold">ID LOOKUP</span>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Date Lost</label>
+                        <input type="date" class="form-control" id="itemDate" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Time Lost <span style="font-weight:400; font-size:0.82rem;">(optional)</span></label>
+                        <input type="time" class="form-control" id="itemTime">
+                    </div>
                 </div>
+
+                <!-- Item Details -->
+                <div class="section-divider">Item Details</div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Color</label>
+                        <input type="text" class="form-control" id="itemColor" placeholder="e.g. black, red, transparent">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Brand</label>
+                        <input type="text" class="form-control" id="itemBrand" placeholder="e.g. Nike, Stanley">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Type</label>
+                        <input type="text" class="form-control" id="itemType" placeholder="e.g. folding, long, automatic">
+                    </div>
                 </div>
-        </main>
+
+                <!-- General Description -->
+                <div class="section-divider">General Description</div>
+                <div class="mb-3">
+                    <label class="form-label">Additional Details</label>
+                    <textarea class="form-control" id="itemDesc" rows="3" placeholder="Any unique marks, stickers, damage, or other details that identify the item..."></textarea>
+                </div>
+
+                <!-- Private Description (Admin Only) -->
+                <div class="section-divider private">🔒 Verification Details (Admin Only)</div>
+                <div class="private-box">
+                    <label class="form-label" style="color:#b30000;">Private Description <span style="font-weight:400; font-size:0.82rem; color:#666;">(not visible to the public)</span></label>
+                    <textarea class="form-control" id="itemPrivateDesc" rows="3" placeholder="Unique identifying details only you would know — e.g. scratch on the bottom, sticker inside, loose zipper, engraved name..."></textarea>
+                    <div class="form-text" style="color:#888; margin-top:6px;">🔐 This will <strong>only be seen by the admin</strong> to verify that you are the true owner when someone claims your item.</div>
+                </div>
+
+                <button type="submit" class="btn-submit">Submit Report</button>
+            </form>
+        </div>
+
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('lostItemForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const formSuccess = document.getElementById('formSuccess');
+        const formError   = document.getElementById('formError');
+        formSuccess.style.display = 'none';
+        formError.style.display   = 'none';
+
+        const user  = JSON.parse(sessionStorage.getItem('tuklas_user') || '{}');
+        const color = document.getElementById('itemColor').value.trim();
+        const brand = document.getElementById('itemBrand').value.trim();
+        const type  = document.getElementById('itemType').value.trim();
+        const time  = document.getElementById('itemTime').value;
+        const desc  = document.getElementById('itemDesc').value.trim();
+
+        // Build structured description
+        let fullDesc = '';
+        if (color) fullDesc += 'Color: ' + color + '\n';
+        if (brand) fullDesc += 'Brand: ' + brand + '\n';
+        if (type)  fullDesc += 'Type: '  + type  + '\n';
+        if (time)  fullDesc += 'Time Lost: ' + time + '\n';
+        if (desc)  fullDesc += 'Details: ' + desc;
+
+        const payload = {
+            item_name           : document.getElementById('itemName').value.trim(),
+            description         : fullDesc.trim(),
+            private_description : document.getElementById('itemPrivateDesc').value.trim(),
+            location            : document.getElementById('itemLocation').value.trim(),
+            date_lost           : document.getElementById('itemDate').value,
+            reported_by         : user.id || null,
+        };
+
+        try {
+            const res  = await fetch('api/lost_items.php', {
+                method : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body   : JSON.stringify(payload),
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                formError.textContent   = data.error || 'Failed to submit report.';
+                formError.style.display = 'block';
+                return;
+            }
+            formSuccess.style.display = 'block';
+            this.reset();
+            setTimeout(() => { formSuccess.style.display = 'none'; }, 3000);
+        } catch (err) {
+            formError.textContent   = 'Could not reach the server. Please try again.';
+            formError.style.display = 'block';
+        }
+    });
+</script>
+
+<script>
+    const tuklasUser = JSON.parse(sessionStorage.getItem('tuklas_user') || '{}');
+    if (tuklasUser && tuklasUser.name) {
+        const loginItem = document.getElementById('loginNavItem');
+        if (loginItem) loginItem.style.display = 'none';
+        const navbarNav = document.getElementById('navbarNav');
+        if (navbarNav) {
+            const ul = navbarNav.querySelector('ul.navbar-nav');
+            if (ul) {
+                ul.innerHTML += `
+                    <li class="nav-item d-flex align-items-center ms-3">
+                        <span style="color:#fff; font-size:0.85rem; margin-right:10px;">
+                            👤 ${tuklasUser.name}
+                        </span>
+                        <a href="login.html"
+                           onclick="sessionStorage.removeItem('tuklas_user')"
+                           style="background:#800000; color:white; border:none; padding:5px 14px; border-radius:6px; font-size:0.85rem; text-decoration:none; font-weight:600;">
+                            Logout
+                        </a>
+                    </li>`;
+            }
+        }
+    }
+</script>
 </body>
 </html>
