@@ -4,16 +4,111 @@
     <meta charset="UTF-8">
     <title>TUKLAS | BULSU LOST & FOUND</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-   
     <link rel="stylesheet" href="gallery.css">
+    <style>
+        .item-card {
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 10px;
+            width: 270px;
+            display: inline-block;
+            vertical-align: top;
+            text-align: left;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .item-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .badge-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        .badge-status {
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .badge-source {
+            color: white;
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 20px;
+        }
+        .item-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: #2c2c2c;
+            margin: 0 0 10px 0;
+        }
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .detail-table td {
+            font-size: 13px;
+            padding: 3px 0;
+            vertical-align: top;
+        }
+        .detail-table .detail-label {
+            color: #888;
+            white-space: nowrap;
+            padding-right: 10px;
+            width: 1%;
+        }
+        .detail-table .detail-value {
+            color: #333;
+            font-weight: 500;
+        }
+        .item-divider {
+            border: none;
+            border-top: 1px solid #f0f0f0;
+            margin: 10px 0;
+        }
+        .item-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .item-meta span {
+            font-size: 12px;
+            color: #888;
+        }
+        .claim-btn {
+            margin-top: 12px;
+            background: #800000;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+        }
+        .claim-btn:hover { background: #5a0000; }
+        .pending-label {
+            margin-top: 12px;
+            display: block;
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-
-
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="#">TUKLAS</a>
@@ -24,8 +119,8 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Report Lost Item</a></li>
+                <li class="nav-item"><a class="nav-link active" href="gallery.html">Item Listing</a></li>
                 <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
             </ul>
         </div>
@@ -33,64 +128,47 @@
 </nav>
 
 <div class="filter-bar">
-    <input type="text" placeholder="Search items...">
-    <select>
-        <option>All Categories</option>
-        <option>Personal Items</option>
-        <option>Accessories</option>
-        <option>Electronics</option>
-        <option>Documents</option>
+    <input type="text" id="searchInput" placeholder="Search items..." oninput="loadItems()">
+    <input type="text" id="locationInput" placeholder="Filter by location..." oninput="loadItems()">
+    <select id="statusFilter" onchange="loadItems()">
+        <option value="">All Items</option>
+        <option value="Lost">Lost Reports</option>
+        <option value="Found">Found Items</option>
+        <option value="Claimed">Claimed</option>
     </select>
-    <select>
-        <option>All Locations</option>
-        <option>Activity Center</option>
-        <option>Library</option>
-        <option>Computer Lab</option>
-        <option>Canteen</option>
-    </select>
-    <input type="date">
 </div>
 
-
-<div class="gallery-grid">
-    <p class="empty-text">No lost items reported yet.</p>
+<div class="gallery-grid" id="galleryGrid">
+    <p class="empty-text">Loading items...</p>
 </div>
 
-
-<div class="claim-section">
-    <h4>Claim Lost Item</h4>
-    <button class="btn btn-maroon" id="openClaimBtn">Claim Item</button>
-</div>
-
-
-<div class="modal fade" id="claimModal">
+<!-- Claim Modal -->
+<div class="modal fade" id="claimModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="claimForm" enctype="multipart/form-data">
+            <form id="claimForm">
                 <div class="modal-header">
-                    <h5 class="modal-title">Claim Lost Item</h5>
+                    <h5 class="modal-title">Claim Item: <span id="claimItemName" style="color:#800000;"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label>Your Name</label>
-                        <input type="text" class="form-control" name="name" required>
+                        <label class="form-label fw-bold">Your Name</label>
+                        <input type="text" class="form-control" id="claimName" required placeholder="Enter your full name">
                     </div>
                     <div class="mb-3">
-                        <label>Contact Info</label>
-                        <input type="text" class="form-control" name="contact" required>
+                        <label class="form-label fw-bold">Contact Info</label>
+                        <input type="text" class="form-control" id="claimContact" required placeholder="Phone number or email">
                     </div>
                     <div class="mb-3">
-                        <label>Item Description</label>
-                        <input type="text" class="form-control" name="description" required>
-                    <div class="mb-3">
-    <label>Proof of Ownership</label>
-    <input type="file" class="form-control" name="proof" disabled>
-    
-</div>
+                        <label class="form-label fw-bold">Describe the Item</label>
+                        <textarea class="form-control" id="claimDesc" rows="3" required placeholder="Describe specific details to prove ownership..."></textarea>
+                    </div>
+                    <div id="claimError" style="display:none; color:red; font-size:13px;"></div>
+                    <div id="claimSuccess" style="display:none; color:green; font-size:13px; font-weight:bold;">Claim submitted! The admin will review and contact you.</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-maroon">Submit Claim</button>
+                    <button type="submit" class="btn btn-maroon" id="claimSubmitBtn">Submit Claim</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>
@@ -99,8 +177,181 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const claimModal = new bootstrap.Modal(document.getElementById('claimModal'));
+    const user = JSON.parse(sessionStorage.getItem('tuklas_user') || '{}');
+    let selectedItemId   = null;
+    let selectedItemType = null;
 
-<script src="gallery.js"></script>
+    function openClaim(itemId, itemName, itemType) {
+        selectedItemId   = itemId;
+        selectedItemType = itemType;
+        document.getElementById('claimItemName').textContent  = itemName;
+        document.getElementById('claimError').style.display   = 'none';
+        document.getElementById('claimSuccess').style.display = 'none';
+        document.getElementById('claimContact').value = '';
+        document.getElementById('claimDesc').value    = '';
+        if (user.name) document.getElementById('claimName').value = user.name;
+        claimModal.show();
+    }
 
+    document.getElementById('claimForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const claimError   = document.getElementById('claimError');
+        const claimSuccess = document.getElementById('claimSuccess');
+        const submitBtn    = document.getElementById('claimSubmitBtn');
+
+        claimError.style.display   = 'none';
+        claimSuccess.style.display = 'none';
+
+        if (!user.id) {
+            claimError.textContent   = 'You must be logged in to submit a claim. Please login first.';
+            claimError.style.display = 'block';
+            return;
+        }
+
+        const contact = document.getElementById('claimContact').value.trim();
+        const desc    = document.getElementById('claimDesc').value.trim();
+
+        submitBtn.disabled    = true;
+        submitBtn.textContent = 'Submitting...';
+
+        const apiUrl  = '/api/lost_item_claims.php';
+        const payload = { lost_item_id: selectedItemId, user_id: user.id, contact_info: contact, description: desc };
+
+        try {
+            const res  = await fetch(apiUrl, {
+                method : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body   : JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                claimError.textContent   = data.error || 'Failed to submit claim.';
+                claimError.style.display = 'block';
+            } else {
+                claimSuccess.style.display = 'block';
+                setTimeout(() => claimModal.hide(), 2500);
+            }
+        } catch (err) {
+            claimError.textContent   = 'Could not reach server. Please try again.';
+            claimError.style.display = 'block';
+        }
+
+        submitBtn.disabled    = false;
+        submitBtn.textContent = 'Submit Claim';
+    });
+
+    function parseDescription(desc) {
+        if (!desc) return {};
+        const fields  = {};
+        const pattern = /(Color|Brand|Type|Time Lost|Details)\s*:\s*(.*?)(?=\s+(?:Color|Brand|Type|Time Lost|Details)\s*:|$)/gi;
+        let match;
+        while ((match = pattern.exec(desc)) !== null) {
+            fields[match[1].trim()] = match[2].trim();
+        }
+        return fields;
+    }
+
+    function buildDetailRows(desc) {
+        const fields = parseDescription(desc);
+        const order  = ['Color', 'Brand', 'Type', 'Time Lost', 'Details'];
+        let rows = '';
+        order.forEach(function(key) {
+            if (fields[key]) {
+                rows += '<tr>'
+                      + '<td class="detail-label">' + key + '</td>'
+                      + '<td class="detail-value">' + fields[key] + '</td>'
+                      + '</tr>';
+            }
+        });
+        if (!rows && desc) {
+            rows = '<tr><td class="detail-value" colspan="2">' + desc + '</td></tr>';
+        }
+        return rows;
+    }
+
+    async function loadItems() {
+        const search   = document.getElementById('searchInput').value.trim();
+        const location = document.getElementById('locationInput').value.trim();
+        const status   = document.getElementById('statusFilter').value;
+
+        let url = '/api/lost_items.php?';
+        if (search)   url += 'search='   + encodeURIComponent(search)   + '&';
+        if (location) url += 'location=' + encodeURIComponent(location) + '&';
+        if (status)   url += 'status='   + encodeURIComponent(status);
+
+        try {
+            const res   = await fetch(url);
+            const data  = await res.json();
+            const items = data.items || [];
+
+            if (items.length === 0) {
+                document.getElementById('galleryGrid').innerHTML = '<p class="empty-text">No items found.</p>';
+                return;
+            }
+
+            document.getElementById('galleryGrid').innerHTML = items.map(function(item) {
+                var statusColor = item.status === 'Lost'    ? '#800000'
+                                : item.status === 'Found'   ? '#1d6e3f'
+                                : '#6c757d';
+
+                var sourceBadge = '<span class="badge-source" style="background:#555;">Lost Report</span>';
+
+                var img = item.image_url
+                    ? '<img src="' + item.image_url + '" onerror="this.style.display=\'none\'">'
+                    : '';
+
+                // Only show Claim button if status is Found
+                var actionHtml;
+                if (item.status === 'Found') {
+                    actionHtml = '<button class="claim-btn" onclick="openClaim(' + item.id + ', \'' + item.item_name.replace(/'/g, "\\'") + '\', \'lost_report\')">Claim This Item</button>';
+                } else if (item.status === 'Claimed') {
+                    actionHtml = '<span class="pending-label">✅ Already Claimed</span>';
+                } else {
+                    // Lost — no claim button, show pending notice
+                    actionHtml = '<span class="pending-label">⏳ Pending admin review</span>';
+                }
+
+                var dateLabel  = '📅 Lost: ';
+                var detailRows = buildDetailRows(item.description || '');
+
+                return '<div class="item-card">'
+                    + img
+                    + '<div class="badge-row">'
+                    +   '<span class="badge-status" style="background:' + statusColor + ';">' + item.status + '</span>'
+                    +   sourceBadge
+                    + '</div>'
+                    + '<p class="item-name">' + item.item_name + '</p>'
+                    + '<table class="detail-table"><tbody>' + detailRows + '</tbody></table>'
+                    + '<hr class="item-divider">'
+                    + '<div class="item-meta">'
+                    +   '<span>📍 ' + item.location + '</span>'
+                    +   '<span>' + dateLabel + item.date_reported + '</span>'
+                    +   (item.reporter_name ? '<span>👤 ' + item.reporter_name + '</span>' : '')
+                    + '</div>'
+                    + actionHtml
+                    + '</div>';
+            }).join('');
+
+        } catch (err) {
+            document.getElementById('galleryGrid').innerHTML = '<p class="empty-text">Failed to load items.</p>';
+        }
+    }
+
+    // Navbar logout
+    const tuklasUser = JSON.parse(sessionStorage.getItem('tuklas_user') || '{}');
+    if (tuklasUser && tuklasUser.name) {
+        const ul = document.querySelector('#navbarNav ul.navbar-nav');
+        if (ul) {
+            ul.innerHTML += '<li class="nav-item d-flex align-items-center ms-3">'
+                + '<span style="color:#fff; font-size:0.85rem; margin-right:10px;">👤 ' + tuklasUser.name + '</span>'
+                + '<a href="login.html" onclick="sessionStorage.removeItem(\'tuklas_user\')" style="background:#800000; color:white; border:none; padding:5px 14px; border-radius:6px; font-size:0.85rem; text-decoration:none; font-weight:600;">Logout</a>'
+                + '</li>';
+        }
+    }
+
+    loadItems();
+</script>
 </body>
 </html>

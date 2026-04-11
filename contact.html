@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TUKLAS | BULSU LOST & FOUND</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+
+<nav class="navbar fixed-top navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#">TUKLAS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Report Lost Item</a></li>
+                <li class="nav-item"><a class="nav-link" href="gallery.html">Item Listing</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="contact-container">
+    <div class="contact-box">
+        <h2>Contact Us</h2>
+        <p style="color:#555; margin-bottom:2rem;">Have questions or need help? Reach us through any of the channels below.</p>
+
+        <div class="contact-info">
+            <div class="contact-item">
+                <span class="contact-icon">✉️</span>
+                <div>
+                    <div class="contact-label">Email</div>
+                    tuklasofficial@gmail.com
+                </div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">📘</span>
+                <div>
+                    <div class="contact-label">Facebook Page</div>
+                    www.facebook.com/TUKLAS.Official
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background: #fafafa;
+    }
+    .contact-icon {
+        font-size: 1.5rem;
+    }
+    .contact-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #900000;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 2px;
+    }
+    .contact-item a {
+        color: #333;
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
+    .contact-item a:hover {
+        color: #900000;
+        text-decoration: underline;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const tuklasUser = JSON.parse(sessionStorage.getItem('tuklas_user') || '{}');
+    if (tuklasUser && tuklasUser.name) {
+        const navbarNav = document.getElementById('navbarNav');
+        if (navbarNav) {
+            const ul = navbarNav.querySelector('ul.navbar-nav');
+            if (ul) {
+                ul.innerHTML += `
+                    <li class="nav-item d-flex align-items-center ms-3">
+                        <span style="color:#fff; font-size:0.85rem; margin-right:10px;">
+                            👤 ${tuklasUser.name}
+                        </span>
+                        <a href="login.html"
+                           onclick="sessionStorage.removeItem('tuklas_user')"
+                           style="background:#800000; color:white; border:none; padding:5px 14px; border-radius:6px; font-size:0.85rem; text-decoration:none; font-weight:600;">
+                            Logout
+                        </a>
+                    </li>`;
+            }
+        }
+    }
+</script>
+</body>
+</html>

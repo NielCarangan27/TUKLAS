@@ -24,12 +24,12 @@
         
         .bodytext {
             margin: 0;
-            padding-top: 80px;
+            padding-top: 250px;
             padding-left: 20px;
         }
         .bodytext2 {
             margin-top: -0.2em;
-            padding-top: 20px;
+            padding-top: 50px;
             padding-left: 20px;
         }
 
@@ -48,7 +48,7 @@
         .bgimg {
             width: 100%;
             height: 100vh;
-            background-image: url("https://cdn.discordapp.com/attachments/1443614739123933314/1472236549528748198/IMG_20240819_194157.jpg?ex=6991d6a2&is=69908522&hm=0afbca3a40856a44ee1da46724063314dee4e29c697cf084586fb5cb0d18a9d5");
+           background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("campusbg.png");
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
